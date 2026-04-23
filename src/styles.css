@@ -359,6 +359,17 @@ input {
   gap: 18px;
 }
 
+.filter-section {
+  display: grid;
+  gap: 10px;
+}
+
+.filter-section__label {
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 .filter-row,
 .action-row {
   display: flex;
@@ -515,6 +526,15 @@ input {
   background: rgb(30 78 140 / 0.12);
 }
 
+.ticket-option--selected {
+  border-color: var(--color-primary-soft);
+  background: rgb(30 78 140 / 0.18);
+}
+
+.ticket-option--disabled {
+  opacity: 0.58;
+}
+
 .ticket-option input {
   margin-top: 4px;
 }
@@ -525,11 +545,19 @@ input {
   color: var(--color-muted);
 }
 
+.ticket-option__benefits {
+  color: #c9defa;
+}
+
 .ticket-option__side {
   display: grid;
   justify-items: end;
   gap: 8px;
   text-align: right;
+}
+
+.category-summary {
+  margin-top: 8px;
 }
 
 .seat-stage {

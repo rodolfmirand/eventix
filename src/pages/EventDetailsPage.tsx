@@ -1,19 +1,24 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
+import { EventCategorySelector } from "../features/events/EventCategorySelector";
 import { formatCurrency, formatEventDate } from "../utils/date";
 import { getEventById } from "../utils/eventLookups";
-
-const categoryStatusLabels = {
-  available: "Disponivel",
-  limited: "Poucos lugares",
-  "sold-out": "Esgotado",
-};
 
 export function EventDetailsPage() {
   const { id = "evento" } = useParams();
   const event = getEventById(id);
+  const defaultCategoryId = useMemo(
+    () => event?.categories.find((category) => category.status !== "sold-out")?.id ?? "",
+    [event],
+  );
+  const [selectedCategoryId, setSelectedCategoryId] = useState(defaultCategoryId);
+
+  useEffect(() => {
+    setSelectedCategoryId(defaultCategoryId);
+  }, [defaultCategoryId]);
 
   if (!event) {
     return (
@@ -29,6 +34,9 @@ export function EventDetailsPage() {
       </section>
     );
   }
+
+  const selectedCategory =
+    event.categories.find((category) => category.id === selectedCategoryId) ?? event.categories[0];
 
   return (
     <section className="page-stack">
@@ -58,38 +66,29 @@ export function EventDetailsPage() {
             <p>Escolha uma categoria para manter o contexto nas proximas etapas.</p>
           </div>
 
-          {event.categories.map((category, index) => (
-            <label className="ticket-option" key={category.id}>
-              <input
-                defaultChecked={index === 1}
-                disabled={category.status === "sold-out"}
-                name="ticket-category"
-                type="radio"
-              />
-              <span>
-                <strong>{category.name}</strong>
-                <small>{category.description}</small>
-              </span>
-              <span className="ticket-option__side">
-                <Badge
-                  variant={
-                    category.status === "limited"
-                      ? "accent"
-                      : category.status === "sold-out"
-                        ? "danger"
-                        : "success"
-                  }
-                >
-                  {categoryStatusLabels[category.status]}
-                </Badge>
-                <strong>{formatCurrency(category.price)}</strong>
-              </span>
-            </label>
-          ))}
+          <EventCategorySelector
+            categories={event.categories}
+            eventId={event.id}
+            onSelect={setSelectedCategoryId}
+            selectedCategoryId={selectedCategory.id}
+          />
 
-          <Link className="button button--primary" to={`/eventos/${id}/assentos`}>
-            Escolher assento
-          </Link>
+          <div className="category-summary">
+            <div className="section-heading">
+              <h2>Categoria selecionada</h2>
+              <p>Preco e beneficios visiveis antes da escolha do assento.</p>
+            </div>
+            <dl className="summary-list">
+              <div>
+                <dt>Categoria</dt>
+                <dd>{selectedCategory.name}</dd>
+              </div>
+              <div>
+                <dt>Valor</dt>
+                <dd className="summary-total">{formatCurrency(selectedCategory.price)}</dd>
+              </div>
+            </dl>
+          </div>
         </Card>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
@@ -7,8 +7,10 @@ import { getEventById } from "../utils/eventLookups";
 
 export function SeatSelectionPage() {
   const { id = "evento" } = useParams();
+  const [searchParams] = useSearchParams();
   const event = getEventById(id);
-  const selectedCategory = event?.categories.find((category) => category.id === "premium");
+  const categoryId = searchParams.get("categoria") ?? "premium";
+  const selectedCategory = event?.categories.find((category) => category.id === categoryId);
   const selectedSeat = event?.seats.find(
     (seat) => seat.categoryId === selectedCategory?.id && seat.status === "available",
   );

@@ -155,14 +155,14 @@ Objetivo: permitir que o usuario encontre e escolha um evento.
 
 Tarefas:
 
-- [ ] Implementar catalogo de eventos.
-- [ ] Exibir card com imagem, titulo, data, local, cidade e preco inicial.
-- [ ] Criar filtros de busca por texto.
-- [ ] Criar filtro por cidade ou data, se houver tempo.
-- [ ] Implementar tela de detalhe do evento.
-- [ ] Exibir categorias com preco, descricao e beneficios.
-- [ ] Permitir selecionar uma categoria.
-- [ ] Direcionar para selecao de assentos.
+- [x] Implementar catalogo de eventos.
+- [x] Exibir card com imagem, titulo, data, local, cidade e preco inicial.
+- [x] Criar filtros de busca por texto.
+- [x] Criar filtro por cidade ou data, se houver tempo.
+- [x] Implementar tela de detalhe do evento.
+- [x] Exibir categorias com preco, descricao e beneficios.
+- [x] Permitir selecionar uma categoria.
+- [x] Direcionar para selecao de assentos.
 
 Arquivos esperados:
 

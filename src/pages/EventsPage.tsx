@@ -1,14 +1,41 @@
-import { Link } from "react-router-dom";
-import { Badge } from "../components/ui/Badge";
-import { Button } from "../components/ui/Button";
-import { Card } from "../components/ui/Card";
-import { Input } from "../components/ui/Input";
+import { useMemo, useState } from "react";
+import { EmptyState } from "../components/ui/EmptyState";
 import { PageHeader } from "../components/ui/PageHeader";
-import { formatCurrency, formatEventDate, formatShortEventDate } from "../utils/date";
-import { getMinimumTicketPrice, getUpcomingEvents } from "../utils/eventLookups";
+import { EventCard } from "../features/events/EventCard";
+import { EventFilters } from "../features/events/EventFilters";
+import { getUpcomingEvents } from "../utils/eventLookups";
 
 export function EventsPage() {
   const upcomingEvents = getUpcomingEvents();
+  const [search, setSearch] = useState("");
+  const [selectedCity, setSelectedCity] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
+  const cityOptions = useMemo(
+    () => [...new Set(upcomingEvents.map((event) => event.city))].sort(),
+    [upcomingEvents],
+  );
+  const filteredEvents = useMemo(
+    () =>
+      upcomingEvents.filter((event) => {
+        const matchesSearch =
+          search.trim().length === 0 ||
+          `${event.title} ${event.description} ${event.category}`
+            .toLowerCase()
+            .includes(search.trim().toLowerCase());
+        const matchesCity = selectedCity === "all" || event.city === selectedCity;
+        const matchesDate =
+          dateFilter === "all" || new Date(event.startsAt).getMonth() + 1 === Number(dateFilter);
+
+        return matchesSearch && matchesCity && matchesDate;
+      }),
+    [dateFilter, search, selectedCity, upcomingEvents],
+  );
+
+  function resetFilters() {
+    setSearch("");
+    setSelectedCity("all");
+    setDateFilter("all");
+  }
 
   return (
     <section className="page-stack">
@@ -18,48 +45,28 @@ export function EventsPage() {
         subtitle="Base inicial para listagem, filtros e selecao de eventos da plataforma."
       />
 
-      <Card className="search-panel">
-        <Input
-          helperText="Pesquise por nome do evento, artista, palestra ou festival."
-          label="Buscar evento"
-          name="search"
-          placeholder="Ex.: festival, jazz, tecnologia"
-          type="search"
-        />
+      <EventFilters
+        cityOptions={cityOptions}
+        dateFilter={dateFilter}
+        onCityChange={setSelectedCity}
+        onDateFilterChange={setDateFilter}
+        onReset={resetFilters}
+        onSearchChange={setSearch}
+        search={search}
+        selectedCity={selectedCity}
+      />
 
-        <div className="filter-row" aria-label="Filtros rapidos">
-          <Button variant="secondary">Sao Paulo</Button>
-          <Button variant="ghost">Este mes</Button>
-          <Button variant="ghost">Ate R$ 150</Button>
-          <Button variant="ghost">Limpar filtros</Button>
+      {filteredEvents.length > 0 ? (
+        <div className="event-grid">
+          {filteredEvents.map((event) => (
+            <EventCard event={event} key={event.id} />
+          ))}
         </div>
-      </Card>
-
-      <div className="event-grid">
-        {upcomingEvents.map((event) => (
-          <Card className="event-card" key={event.id}>
-            <div className="event-card__media" aria-hidden="true">
-              <span>{event.imageLabel}</span>
-            </div>
-            <div className="event-card__body">
-              <div className="event-card__meta">
-                <div className="event-card__date">{formatShortEventDate(event.startsAt)}</div>
-                <Badge variant="neutral">
-                  {event.city}, {event.state}
-                </Badge>
-              </div>
-              <h2>{event.title}</h2>
-              <p>{formatEventDate(event.startsAt)}</p>
-              <strong className="price-label">
-                A partir de {formatCurrency(getMinimumTicketPrice(event))}
-              </strong>
-            </div>
-            <Link className="button button--secondary" to={`/eventos/${event.id}`}>
-              Ver detalhes
-            </Link>
-          </Card>
-        ))}
-      </div>
+      ) : (
+        <EmptyState actionLabel="Limpar filtros" onAction={resetFilters} title="Nenhum evento encontrado">
+          Ajuste a busca ou remova os filtros para ver outros eventos disponiveis.
+        </EmptyState>
+      )}
     </section>
   );
 }
