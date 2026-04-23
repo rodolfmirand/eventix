@@ -14,13 +14,13 @@ Objetivo: deixar o projeto pronto para receber a aplicacao.
 
 Tarefas:
 
-- [ ] Confirmar nome do sistema: Eventix.
+- [x] Confirmar nome do sistema: Eventix.
 - [ ] Definir integrantes para uso futuro no relatorio.
-- [ ] Criar projeto React + TypeScript com Vite.
-- [ ] Configurar Tailwind CSS.
-- [ ] Configurar React Router.
-- [ ] Criar scripts principais: `dev`, `build`, `preview`.
-- [ ] Atualizar README com comandos de execucao.
+- [x] Criar projeto React + TypeScript com Vite.
+- [x] Configurar Tailwind CSS.
+- [x] Configurar React Router.
+- [x] Criar scripts principais: `dev`, `build`, `preview`.
+- [x] Atualizar README com comandos de execucao.
 
 Arquivos esperados:
 
@@ -44,18 +44,18 @@ Objetivo: criar a base visual e a estrutura de paginas.
 
 Tarefas:
 
-- [ ] Criar layout principal com header, navegacao e area de conteudo.
-- [ ] Criar rotas vazias para login, eventos, detalhe, assentos, checkout, confirmacao, perfil e ingresso.
-- [ ] Criar componentes base de UI:
-  - [ ] `Button`
-  - [ ] `Input`
-  - [ ] `Card`
-  - [ ] `Badge`
-  - [ ] `Alert`
-  - [ ] `PageHeader`
-  - [ ] `EmptyState`
-- [ ] Aplicar tokens iniciais de cor, tipografia e espacamento definidos em `docs/DECISOES_DESIGN.md`.
-- [ ] Garantir foco visivel em links, botoes e campos.
+- [x] Criar layout principal com header, navegacao e area de conteudo.
+- [x] Criar rotas vazias para login, eventos, detalhe, assentos, checkout, confirmacao, perfil e ingresso.
+- [x] Criar componentes base de UI:
+  - [x] `Button`
+  - [x] `Input`
+  - [x] `Card`
+  - [x] `Badge`
+  - [x] `Alert`
+  - [x] `PageHeader`
+  - [x] `EmptyState`
+- [x] Aplicar tokens iniciais de cor, tipografia e espacamento definidos em `docs/DECISOES_DESIGN.md`.
+- [x] Garantir foco visivel em links, botoes e campos.
 
 Arquivos esperados:
 
