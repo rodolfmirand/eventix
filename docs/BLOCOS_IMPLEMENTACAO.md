@@ -317,13 +317,13 @@ Objetivo: preparar o sistema para video, relatorio e avaliacao de usabilidade.
 
 Tarefas:
 
-- [ ] Revisar desktop e mobile.
-- [ ] Garantir que texto nao sobrepoe componentes.
-- [ ] Verificar contraste de cores.
-- [ ] Verificar navegacao por teclado no fluxo principal.
-- [ ] Conferir labels de campos e nomes acessiveis de botoes.
-- [ ] Adicionar estados vazios, loading e erro onde faltarem.
-- [ ] Revisar consistencia de termos: evento, ingresso, assento, categoria, pagamento.
+- [x] Revisar desktop e mobile.
+- [x] Garantir que texto nao sobrepoe componentes.
+- [x] Verificar contraste de cores.
+- [x] Verificar navegacao por teclado no fluxo principal.
+- [x] Conferir labels de campos e nomes acessiveis de botoes.
+- [x] Adicionar estados vazios, loading e erro onde faltarem.
+- [x] Revisar consistencia de termos: evento, ingresso, assento, categoria, pagamento.
 
 Arquivos esperados:
 

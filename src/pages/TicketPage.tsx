@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
-import { currentUser } from "../data/users";
+import { useAuth } from "../features/auth/AuthContext";
 import { DigitalTicket } from "../features/tickets/DigitalTicket";
 import { useTickets } from "../features/tickets/TicketsContext";
 import { formatEventDate } from "../utils/date";
@@ -9,6 +9,7 @@ import { getPurchasedTicketById, getTicketDetails } from "../utils/eventLookups"
 
 export function TicketPage() {
   const { ticketId = "ingresso" } = useParams();
+  const { user } = useAuth();
   const { tickets } = useTickets();
   const ticket = getPurchasedTicketById(ticketId, tickets);
   const ticketDetails = ticket ? getTicketDetails(ticket) : undefined;
@@ -35,7 +36,7 @@ export function TicketPage() {
       <PageHeader
         eyebrow="Ingresso digital"
         title="Seu ingresso"
-        subtitle="Esta tela exibira o QR Code e os detalhes do ingresso comprado."
+        subtitle="Apresente o QR Code na entrada e confira os dados do evento abaixo."
       />
 
       <Card>
@@ -47,7 +48,7 @@ export function TicketPage() {
           qrPayload={resolvedTicket.qrPayload}
           seatLabel={`${seat.row}${seat.number}`}
           ticketId={resolvedTicket.id}
-          ticketOwner={currentUser.name}
+          ticketOwner={user?.name ?? "Titular"}
         />
       </Card>
     </section>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card } from "../components/ui/Card";
+import { EmptyState } from "../components/ui/EmptyState";
 import { PageHeader } from "../components/ui/PageHeader";
 import { useAuth } from "../features/auth/AuthContext";
 import { ProfileSummary } from "../features/profile/ProfileSummary";
@@ -37,18 +38,24 @@ export function ProfilePage() {
             <h2>Proximos eventos</h2>
             <p>Ingressos em ordem cronologica para facilitar o acesso no dia do evento.</p>
           </div>
-          {upcoming.map(({ category, event, seat, ticket }) => (
-            <TicketCard
-              categoryName={category.name}
-              dateLabel={formatEventDate(event.startsAt)}
-              eventTitle={event.title}
-              key={ticket.id}
-              seatLabel={`${seat.row}${seat.number}`}
-              statusLabel="Proximo evento"
-              statusVariant="success"
-              ticketId={ticket.id}
-            />
-          ))}
+          {upcoming.length > 0 ? (
+            upcoming.map(({ category, event, seat, ticket }) => (
+              <TicketCard
+                categoryName={category.name}
+                dateLabel={formatEventDate(event.startsAt)}
+                eventTitle={event.title}
+                key={ticket.id}
+                seatLabel={`${seat.row}${seat.number}`}
+                statusLabel="Proximo evento"
+                statusVariant="success"
+                ticketId={ticket.id}
+              />
+            ))
+          ) : (
+            <EmptyState title="Nenhum ingresso futuro">
+              Assim que uma nova compra for concluida, ela aparecera aqui.
+            </EmptyState>
+          )}
         </Card>
 
         <Card className="ticket-list-section">

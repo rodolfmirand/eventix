@@ -36,6 +36,7 @@ export function SeatMap({ onSelectSeat, seats, selectedSeatId }: SeatMapProps) {
                         ? `Assento ${seatLabel} ocupado`
                         : `Selecionar assento ${seatLabel}`
                   }
+                  aria-pressed={isOccupied ? undefined : isSelected}
                   className={[
                     "seat-preview",
                     isOccupied ? "seat-preview--occupied" : "",
@@ -46,6 +47,7 @@ export function SeatMap({ onSelectSeat, seats, selectedSeatId }: SeatMapProps) {
                   disabled={isOccupied}
                   key={seat.id}
                   onClick={() => onSelectSeat(seat.id)}
+                  title={isOccupied ? `Assento ${seatLabel} ocupado` : `Assento ${seatLabel}`}
                   type="button"
                 >
                   {seatLabel}

@@ -77,6 +77,7 @@ export function LoginPage() {
             onChange={(event) => setEmail(event.target.value)}
             placeholder="voce@email.com"
             type="email"
+            autoComplete="email"
             value={email}
           />
           <Input
@@ -86,6 +87,7 @@ export function LoginPage() {
             onChange={(event) => setPassword(event.target.value)}
             placeholder="Digite sua senha"
             type="password"
+            autoComplete="current-password"
             value={password}
           />
           <Button isLoading={isLoading} type="submit">

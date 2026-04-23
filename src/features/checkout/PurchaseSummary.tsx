@@ -21,10 +21,10 @@ export function PurchaseSummary({
   totalLabel,
 }: PurchaseSummaryProps) {
   return (
-    <div className="purchase-summary">
+    <div className="purchase-summary" aria-live="polite">
       <div className="section-heading">
         <h2>Resumo da compra</h2>
-        <p>Mantenha suas escolhas visiveis antes de avancar.</p>
+        <p>Confira os detalhes do pedido antes de seguir.</p>
       </div>
       <dl className="summary-list">
         <div>
@@ -49,7 +49,7 @@ export function PurchaseSummary({
         </div>
         <div>
           <dt>Assento</dt>
-          <dd>{seatLabel ?? "Selecione um assento"}</dd>
+          <dd>{seatLabel ?? "Selecione um assento para continuar"}</dd>
         </div>
         <div>
           <dt>Total</dt>

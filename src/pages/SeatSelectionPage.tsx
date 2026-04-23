@@ -20,6 +20,13 @@ export function SeatSelectionPage() {
     () => (event && selectedCategory ? getSeatsByCategory(event, selectedCategory.id) : []),
     [event, selectedCategory],
   );
+  const seatStats = useMemo(
+    () => ({
+      available: categorySeats.filter((seat) => seat.status === "available").length,
+      occupied: categorySeats.filter((seat) => seat.status === "occupied").length,
+    }),
+    [categorySeats],
+  );
   const [selectedSeatId, setSelectedSeatId] = useState<string | null>(null);
   const selectedSeat = categorySeats.find((seat) => seat.id === selectedSeatId) ?? null;
 
@@ -43,12 +50,16 @@ export function SeatSelectionPage() {
       <PageHeader
         eyebrow="Assentos"
         title="Escolha seu lugar"
-        subtitle="O mapa de assentos mostrara lugares livres, ocupados e selecionados."
+        subtitle="Selecione um assento disponivel e confirme os detalhes da compra ao lado."
       />
 
       <div className="purchase-layout">
         <Card className="seat-placeholder">
           <div className="seat-stage">Palco</div>
+          <p className="seat-map__status" role="status">
+            {seatStats.available} disponiveis · {seatStats.occupied} ocupados
+            {selectedSeat ? ` · Assento ${selectedSeat.row}${selectedSeat.number} selecionado` : ""}
+          </p>
           <SeatMap onSelectSeat={setSelectedSeatId} seats={categorySeats} selectedSeatId={selectedSeatId} />
           <SeatLegend />
         </Card>

@@ -58,7 +58,7 @@ export function EventsPage() {
 
       {filteredEvents.length > 0 ? (
         <>
-          <div className="catalog-status">
+          <div aria-live="polite" className="catalog-status" role="status">
             <span>{filteredEvents.length} resultados</span>
             <span>
               {selectedCity === "all" ? "Todas as cidades" : selectedCity}

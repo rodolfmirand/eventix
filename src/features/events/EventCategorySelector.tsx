@@ -24,52 +24,55 @@ export function EventCategorySelector({
 }: EventCategorySelectorProps) {
   return (
     <>
-      {categories.map((category) => {
-        const isSelected = category.id === selectedCategoryId;
-        const isDisabled = category.status === "sold-out";
+      <div aria-label="Categorias de ingresso" className="ticket-options__list" role="radiogroup">
+        {categories.map((category) => {
+          const isSelected = category.id === selectedCategoryId;
+          const isDisabled = category.status === "sold-out";
 
-        return (
-          <label
-            className={[
-              "ticket-option",
-              isSelected ? "ticket-option--selected" : "",
-              isDisabled ? "ticket-option--disabled" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            key={category.id}
-          >
-            <input
-              checked={isSelected}
-              disabled={isDisabled}
-              name="ticket-category"
-              onChange={() => onSelect(category.id)}
-              type="radio"
-            />
-            <span>
-              <strong>{category.name}</strong>
-              <small>{category.description}</small>
-              <small className="ticket-option__benefits">
-                {category.benefits.join(" • ")}
-              </small>
-            </span>
-            <span className="ticket-option__side">
-              <Badge
-                variant={
-                  category.status === "limited"
-                    ? "accent"
-                    : category.status === "sold-out"
-                      ? "danger"
-                      : "success"
-                }
-              >
-                {categoryStatusLabels[category.status]}
-              </Badge>
-              <strong>{formatCurrency(category.price)}</strong>
-            </span>
-          </label>
-        );
-      })}
+          return (
+            <label
+              className={[
+                "ticket-option",
+                isSelected ? "ticket-option--selected" : "",
+                isDisabled ? "ticket-option--disabled" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              key={category.id}
+            >
+              <input
+                aria-label={`Categoria ${category.name}`}
+                checked={isSelected}
+                disabled={isDisabled}
+                name="ticket-category"
+                onChange={() => onSelect(category.id)}
+                type="radio"
+              />
+              <span>
+                <strong>{category.name}</strong>
+                <small>{category.description}</small>
+                <small className="ticket-option__benefits">
+                  {category.benefits.join(" • ")}
+                </small>
+              </span>
+              <span className="ticket-option__side">
+                <Badge
+                  variant={
+                    category.status === "limited"
+                      ? "accent"
+                      : category.status === "sold-out"
+                        ? "danger"
+                        : "success"
+                  }
+                >
+                  {categoryStatusLabels[category.status]}
+                </Badge>
+                <strong>{formatCurrency(category.price)}</strong>
+              </span>
+            </label>
+          );
+        })}
+      </div>
 
       <Link
         className="button button--primary"

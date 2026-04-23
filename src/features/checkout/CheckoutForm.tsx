@@ -12,7 +12,7 @@ type CheckoutFormValues = {
 type CheckoutFormErrors = Partial<Record<keyof CheckoutFormValues, string>>;
 
 type CheckoutFormProps = {
-  onSubmit: () => void;
+  onSubmit: () => void | Promise<void>;
 };
 
 const initialValues: CheckoutFormValues = {
@@ -22,10 +22,30 @@ const initialValues: CheckoutFormValues = {
   expiry: "",
 };
 
+function formatCardNumber(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 16);
+  return digits.replace(/(\d{4})(?=\d)/g, "$1 ").trim();
+}
+
+function formatExpiry(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 4);
+
+  if (digits.length <= 2) {
+    return digits;
+  }
+
+  return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+}
+
+function formatCvv(value: string) {
+  return value.replace(/\D/g, "").slice(0, 4);
+}
+
 export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
   const [values, setValues] = useState<CheckoutFormValues>(initialValues);
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
   const [formError, setFormError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateValue(field: keyof CheckoutFormValues, value: string) {
     setValues((current) => ({
@@ -64,7 +84,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormError("");
 
@@ -73,7 +93,12 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
       return;
     }
 
-    onSubmit();
+    try {
+      setIsSubmitting(true);
+      await onSubmit();
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -87,14 +112,18 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
         name="cardName"
         onChange={(event) => updateValue("cardName", event.target.value)}
         placeholder="Maria Silva"
+        autoComplete="cc-name"
         value={values.cardName}
       />
       <Input
         error={errors.cardNumber}
         label="Numero do cartao"
         name="cardNumber"
-        onChange={(event) => updateValue("cardNumber", event.target.value)}
+        maxLength={19}
+        onChange={(event) => updateValue("cardNumber", formatCardNumber(event.target.value))}
         placeholder="0000 0000 0000 0000"
+        autoComplete="cc-number"
+        inputMode="numeric"
         value={values.cardNumber}
       />
       <div className="form-grid">
@@ -102,20 +131,28 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
           error={errors.expiry}
           label="Validade"
           name="expiry"
-          onChange={(event) => updateValue("expiry", event.target.value)}
+          maxLength={5}
+          onChange={(event) => updateValue("expiry", formatExpiry(event.target.value))}
           placeholder="MM/AA"
+          autoComplete="cc-exp"
+          inputMode="numeric"
           value={values.expiry}
         />
         <Input
           error={errors.cvv}
           label="CVV"
           name="cvv"
-          onChange={(event) => updateValue("cvv", event.target.value)}
+          maxLength={4}
+          onChange={(event) => updateValue("cvv", formatCvv(event.target.value))}
           placeholder="123"
+          autoComplete="cc-csc"
+          inputMode="numeric"
           value={values.cvv}
         />
       </div>
-      <Button type="submit">Finalizar compra</Button>
+      <Button isLoading={isSubmitting} type="submit">
+        Finalizar compra
+      </Button>
     </form>
   );
 }

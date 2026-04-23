@@ -33,7 +33,8 @@ export function CheckoutPage() {
     );
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    await new Promise((resolve) => window.setTimeout(resolve, 500));
     const ticket = createTicket({
       categoryId,
       eventId,

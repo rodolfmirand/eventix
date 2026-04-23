@@ -43,7 +43,7 @@ export function EventDetailsPage() {
       <PageHeader
         eyebrow="Detalhe do evento"
         title={event.title}
-        subtitle="Compare categorias, precos e beneficios antes da escolha de assentos."
+        subtitle="Compare categorias, precos e beneficios antes de escolher o assento."
       />
 
       <div className="detail-layout">
@@ -73,10 +73,10 @@ export function EventDetailsPage() {
             selectedCategoryId={selectedCategory.id}
           />
 
-          <div className="category-summary">
+          <div aria-live="polite" className="category-summary">
             <div className="section-heading">
               <h2>Categoria selecionada</h2>
-              <p>Preco e beneficios visiveis antes da escolha do assento.</p>
+              <p>Confira a opcao escolhida antes de avancar.</p>
             </div>
             <dl className="summary-list">
               <div>
