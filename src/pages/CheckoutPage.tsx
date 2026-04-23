@@ -1,6 +1,8 @@
-import { Alert } from "../components/ui/Alert";
+import { Link } from "react-router-dom";
 import { Card } from "../components/ui/Card";
+import { Input } from "../components/ui/Input";
 import { PageHeader } from "../components/ui/PageHeader";
+import { previewPurchase } from "../data/previewCatalog";
 
 export function CheckoutPage() {
   return (
@@ -10,11 +12,54 @@ export function CheckoutPage() {
         title="Resumo da compra"
         subtitle="Nesta etapa entra o formulario de pagamento simulado e a revisao final do ingresso."
       />
-      <Card>
-        <Alert title="Proximo bloco" variant="info">
-          O checkout sera implementado depois que categoria e assento estiverem definidos.
-        </Alert>
-      </Card>
+
+      <div className="purchase-layout">
+        <Card>
+          <form className="form-stack">
+            <Input label="Nome impresso no cartao" name="cardName" placeholder="Maria Silva" />
+            <Input
+              helperText="Pagamento apenas simulado para o trabalho."
+              label="Numero do cartao"
+              name="cardNumber"
+              placeholder="0000 0000 0000 0000"
+            />
+            <div className="form-grid">
+              <Input label="Validade" name="expiry" placeholder="MM/AA" />
+              <Input label="CVV" name="cvv" placeholder="123" />
+            </div>
+            <Link className="button button--primary" to="/confirmacao/EVX-2026-001">
+              Finalizar compra simulada
+            </Link>
+          </form>
+        </Card>
+
+        <Card className="purchase-summary">
+          <div className="section-heading">
+            <h2>Resumo do pedido</h2>
+            <p>Preco total visivel antes da confirmacao.</p>
+          </div>
+          <dl className="summary-list">
+            <div>
+              <dt>Evento</dt>
+              <dd>{previewPurchase.event}</dd>
+            </div>
+            <div>
+              <dt>Local</dt>
+              <dd>{previewPurchase.location}</dd>
+            </div>
+            <div>
+              <dt>Categoria e assento</dt>
+              <dd>
+                {previewPurchase.category} - {previewPurchase.seat}
+              </dd>
+            </div>
+            <div>
+              <dt>Total</dt>
+              <dd className="summary-total">{previewPurchase.total}</dd>
+            </div>
+          </dl>
+        </Card>
+      </div>
     </section>
   );
 }

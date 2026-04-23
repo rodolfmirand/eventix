@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
+import { previewPurchase } from "../data/previewCatalog";
 
 export function ConfirmationPage() {
   return (
@@ -12,10 +12,20 @@ export function ConfirmationPage() {
         subtitle="A tela final mostrara o status da compra e o caminho para o ingresso digital."
       />
       <Card className="action-panel">
-        <p>Depois da compra simulada, o usuario podera abrir o ingresso ou voltar para o perfil.</p>
-        <Link to="/perfil">
-          <Button>Ir para o perfil</Button>
-        </Link>
+        <div>
+          <strong className="success-title">Pagamento simulado aprovado</strong>
+          <p>
+            O ingresso {previewPurchase.ticketId} foi criado e ja pode ser acessado pelo perfil.
+          </p>
+        </div>
+        <div className="action-row">
+          <Link className="button button--primary" to={`/ingressos/${previewPurchase.ticketId}`}>
+            Abrir ingresso digital
+          </Link>
+          <Link className="button button--secondary" to="/perfil">
+            Ir para o perfil
+          </Link>
+        </div>
       </Card>
     </section>
   );
