@@ -1,6 +1,7 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { currentUser } from "../../data/users";
 import type { User } from "../../types/domain";
+import { persistUser, readPersistedUser } from "../../utils/storage";
 
 type AuthContextValue = {
   isAuthenticated: boolean;
@@ -17,8 +18,12 @@ type AuthProviderProps = {
 };
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => readPersistedUser());
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    persistUser(user);
+  }, [user]);
 
   async function login(email: string, password: string) {
     setIsLoading(true);

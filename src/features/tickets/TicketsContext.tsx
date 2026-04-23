@@ -1,7 +1,8 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { purchasedTickets as initialTickets } from "../../data/tickets";
 import { currentUser } from "../../data/users";
 import type { PurchasedTicket } from "../../types/domain";
+import { persistTickets, readPersistedTickets, resetPersistedTickets } from "../../utils/storage";
 
 type CreateTicketInput = {
   categoryId: string;
@@ -11,6 +12,7 @@ type CreateTicketInput = {
 
 type TicketsContextValue = {
   createTicket: (input: CreateTicketInput) => PurchasedTicket;
+  resetTickets: () => void;
   tickets: PurchasedTicket[];
 };
 
@@ -21,7 +23,11 @@ type TicketsProviderProps = {
 };
 
 export function TicketsProvider({ children }: TicketsProviderProps) {
-  const [tickets, setTickets] = useState<PurchasedTicket[]>(initialTickets);
+  const [tickets, setTickets] = useState<PurchasedTicket[]>(() => readPersistedTickets());
+
+  useEffect(() => {
+    persistTickets(tickets);
+  }, [tickets]);
 
   function createTicket({ categoryId, eventId, seatId }: CreateTicketInput) {
     const nextNumber = tickets.length + 1;
@@ -40,9 +46,15 @@ export function TicketsProvider({ children }: TicketsProviderProps) {
     return newTicket;
   }
 
+  function resetTickets() {
+    setTickets(initialTickets);
+    resetPersistedTickets();
+  }
+
   const value = useMemo<TicketsContextValue>(
     () => ({
       createTicket,
+      resetTickets,
       tickets,
     }),
     [tickets],

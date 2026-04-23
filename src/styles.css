@@ -682,6 +682,25 @@ input {
   gap: 18px;
 }
 
+.subtle-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.subtle-actions__button {
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.subtle-actions__button:hover {
+  color: #ffd5d1;
+}
+
 .profile-summary {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

@@ -295,10 +295,10 @@ Objetivo: melhorar a demonstracao mantendo compras apos recarregar a pagina.
 
 Tarefas:
 
-- [ ] Salvar sessao simulada em `localStorage`, se fizer sentido.
-- [ ] Salvar ingressos comprados em `localStorage`.
-- [ ] Criar opcao discreta para limpar dados simulados, se necessario para testes.
-- [ ] Garantir que dados invalidos do storage nao quebrem a aplicacao.
+- [x] Salvar sessao simulada em `localStorage`, se fizer sentido.
+- [x] Salvar ingressos comprados em `localStorage`.
+- [x] Criar opcao discreta para limpar dados simulados, se necessario para testes.
+- [x] Garantir que dados invalidos do storage nao quebrem a aplicacao.
 
 Arquivos esperados:
 

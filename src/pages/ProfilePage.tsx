@@ -9,7 +9,7 @@ import { formatEventDate } from "../utils/date";
 import { splitPurchasedTicketsByEventDate } from "../utils/eventLookups";
 
 export function ProfilePage() {
-  const { tickets } = useTickets();
+  const { resetTickets, tickets } = useTickets();
   const { past, upcoming } = splitPurchasedTicketsByEventDate(tickets);
 
   return (
@@ -27,6 +27,12 @@ export function ProfilePage() {
         upcomingCount={upcoming.length}
         userName={currentUser.name}
       />
+
+      <div className="subtle-actions">
+        <button className="subtle-actions__button" onClick={resetTickets} type="button">
+          Limpar dados simulados de ingressos
+        </button>
+      </div>
 
       <div className="profile-sections">
         <Card className="ticket-list-section">
