@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
-import { currentUser } from "../data/users";
+import { useAuth } from "../features/auth/AuthContext";
 import { ProfileSummary } from "../features/profile/ProfileSummary";
 import { TicketCard } from "../features/tickets/TicketCard";
 import { useTickets } from "../features/tickets/TicketsContext";
@@ -9,30 +9,27 @@ import { formatEventDate } from "../utils/date";
 import { splitPurchasedTicketsByEventDate } from "../utils/eventLookups";
 
 export function ProfilePage() {
-  const { resetTickets, tickets } = useTickets();
+  const { user } = useAuth();
+  const { tickets } = useTickets();
   const { past, upcoming } = splitPurchasedTicketsByEventDate(tickets);
+  const userName = user?.name ?? "Cliente";
+  const userEmail = user?.email ?? "";
 
   return (
     <section className="page-stack">
       <PageHeader
         eyebrow="Perfil"
         title="Meus ingressos"
-        subtitle={`Ingressos de ${currentUser.name}, separados entre proximos eventos e eventos passados.`}
+        subtitle={`Ingressos de ${userName}, separados entre proximos eventos e historico.`}
       />
 
       <ProfileSummary
-        email={currentUser.email}
+        email={userEmail}
         pastCount={past.length}
         totalTickets={tickets.length}
         upcomingCount={upcoming.length}
-        userName={currentUser.name}
+        userName={userName}
       />
-
-      <div className="subtle-actions">
-        <button className="subtle-actions__button" onClick={resetTickets} type="button">
-          Limpar dados simulados de ingressos
-        </button>
-      </div>
 
       <div className="profile-sections">
         <Card className="ticket-list-section">

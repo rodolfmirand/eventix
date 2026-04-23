@@ -15,11 +15,11 @@ export function ConfirmationPage() {
       <PageHeader
         eyebrow="Confirmacao"
         title="Compra confirmada"
-        subtitle="A tela final mostrara o status da compra e o caminho para o ingresso digital."
+        subtitle="Seu pedido foi concluido e o ingresso ja esta disponivel na conta."
       />
       <Card className="action-panel">
         <div>
-          <strong className="success-title">Pagamento simulado aprovado</strong>
+          <strong className="success-title">Pagamento aprovado</strong>
           <p>
             O ingresso {ticket?.id ?? ticketId} foi criado e ja pode ser acessado pelo perfil.
           </p>

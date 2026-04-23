@@ -1,7 +1,3 @@
-import { Button } from "../../components/ui/Button";
-import { Card } from "../../components/ui/Card";
-import { Input } from "../../components/ui/Input";
-
 type EventFiltersProps = {
   cityOptions: string[];
   dateFilter: string;
@@ -31,55 +27,54 @@ export function EventFilters({
   selectedCity,
 }: EventFiltersProps) {
   return (
-    <Card className="search-panel">
-      <Input
-        helperText="Pesquise por nome do evento, artista, palestra ou festival."
-        label="Buscar evento"
-        name="search"
-        onChange={(event) => onSearchChange(event.target.value)}
-        placeholder="Ex.: festival, jazz, tecnologia"
-        type="search"
-        value={search}
-      />
+    <section className="discovery-toolbar" aria-label="Ferramentas de descoberta">
+      <label className="discovery-toolbar__search">
+        <span className="sr-only">Buscar evento</span>
+        <input
+          name="search"
+          onChange={(event) => onSearchChange(event.target.value)}
+          placeholder="Buscar por nome, categoria ou experiencia"
+          type="search"
+          value={search}
+        />
+      </label>
 
-      <div className="filter-section">
-        <span className="filter-section__label">Cidade</span>
-        <div className="filter-row" aria-label="Filtro por cidade">
-          <Button
-            onClick={() => onCityChange("all")}
-            variant={selectedCity === "all" ? "secondary" : "ghost"}
-          >
-            Todas
-          </Button>
+      <label className="toolbar-field">
+        <span className="sr-only">Filtrar por cidade</span>
+        <select
+          className="toolbar-select"
+          name="city"
+          onChange={(event) => onCityChange(event.target.value)}
+          value={selectedCity}
+        >
+          <option value="all">Todas as cidades</option>
           {cityOptions.map((city) => (
-            <Button
-              key={city}
-              onClick={() => onCityChange(city)}
-              variant={selectedCity === city ? "secondary" : "ghost"}
-            >
+            <option key={city} value={city}>
               {city}
-            </Button>
+            </option>
           ))}
-        </div>
-      </div>
+        </select>
+      </label>
 
-      <div className="filter-section">
-        <span className="filter-section__label">Periodo</span>
-        <div className="filter-row" aria-label="Filtro por periodo">
+      <label className="toolbar-field">
+        <span className="sr-only">Filtrar por periodo</span>
+        <select
+          className="toolbar-select"
+          name="date"
+          onChange={(event) => onDateFilterChange(event.target.value)}
+          value={dateFilter}
+        >
           {dateOptions.map((option) => (
-            <Button
-              key={option.value}
-              onClick={() => onDateFilterChange(option.value)}
-              variant={dateFilter === option.value ? "secondary" : "ghost"}
-            >
+            <option key={option.value} value={option.value}>
               {option.label}
-            </Button>
+            </option>
           ))}
-          <Button onClick={onReset} variant="ghost">
-            Limpar filtros
-          </Button>
-        </div>
-      </div>
-    </Card>
+        </select>
+      </label>
+
+      <button className="toolbar-reset" onClick={onReset} type="button">
+        Limpar
+      </button>
+    </section>
   );
 }

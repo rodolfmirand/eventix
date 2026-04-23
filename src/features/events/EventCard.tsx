@@ -15,22 +15,31 @@ export function EventCard({ event }: EventCardProps) {
       <div className="event-card__media" aria-hidden="true">
         <span>{event.imageLabel}</span>
       </div>
-      <div className="event-card__body">
-        <div className="event-card__meta">
-          <div className="event-card__date">{formatShortEventDate(event.startsAt)}</div>
-          <Badge variant="neutral">
-            {event.city}, {event.state}
-          </Badge>
+      <div className="event-card__content">
+        <div className="event-card__body">
+          <div className="event-card__meta">
+            <div className="event-card__date">{formatShortEventDate(event.startsAt)}</div>
+            <Badge variant="neutral">
+              {event.city}, {event.state}
+            </Badge>
+          </div>
+          <h2>{event.title}</h2>
+          <p>{formatEventDate(event.startsAt)}</p>
+          <p className="event-card__venue">
+            {event.venue} - {event.city}, {event.state}
+          </p>
+          <strong className="price-label">
+            A partir de {formatCurrency(getMinimumTicketPrice(event))}
+          </strong>
         </div>
-        <h2>{event.title}</h2>
-        <p>{formatEventDate(event.startsAt)}</p>
-        <strong className="price-label">
-          A partir de {formatCurrency(getMinimumTicketPrice(event))}
-        </strong>
+        <div className="event-card__footer">
+          <span>{event.category}</span>
+          <span>{event.description.slice(0, 88)}...</span>
+        </div>
+        <Link className="button button--secondary" to={`/eventos/${event.id}`}>
+          Ver detalhes
+        </Link>
       </div>
-      <Link className="button button--secondary" to={`/eventos/${event.id}`}>
-        Ver detalhes
-      </Link>
     </Card>
   );
 }

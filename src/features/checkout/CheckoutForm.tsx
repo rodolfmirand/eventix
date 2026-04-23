@@ -1,5 +1,4 @@
 import { useState, type FormEvent } from "react";
-import { Alert } from "../../components/ui/Alert";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 
@@ -50,7 +49,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
     }
 
     if (!/^\d{16}$/.test(digitsOnlyCard)) {
-      nextErrors.cardNumber = "Use um numero de cartao simulado com 16 digitos.";
+      nextErrors.cardNumber = "Informe um numero de cartao com 16 digitos.";
     }
 
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(values.expiry)) {
@@ -58,7 +57,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
     }
 
     if (!/^\d{3,4}$/.test(values.cvv)) {
-      nextErrors.cvv = "Informe um CVV simulado com 3 ou 4 digitos.";
+      nextErrors.cvv = "Informe um CVV com 3 ou 4 digitos.";
     }
 
     setErrors(nextErrors);
@@ -79,13 +78,8 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
 
   return (
     <form className="form-stack" onSubmit={handleSubmit}>
-      <Alert title="Pagamento simulado" variant="info">
-        Nenhum dado real sera processado. Esta etapa valida apenas o fluxo do trabalho.
-      </Alert>
       {formError ? (
-        <Alert title="Formulario incompleto" variant="danger">
-          {formError}
-        </Alert>
+        <p className="field__message field__message--error">{formError}</p>
       ) : null}
       <Input
         error={errors.cardName}
@@ -97,7 +91,6 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
       />
       <Input
         error={errors.cardNumber}
-        helperText="Pagamento apenas simulado para o trabalho."
         label="Numero do cartao"
         name="cardNumber"
         onChange={(event) => updateValue("cardNumber", event.target.value)}
@@ -122,7 +115,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
           value={values.cvv}
         />
       </div>
-      <Button type="submit">Finalizar compra simulada</Button>
+      <Button type="submit">Finalizar compra</Button>
     </form>
   );
 }

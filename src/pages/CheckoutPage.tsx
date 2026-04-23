@@ -48,7 +48,7 @@ export function CheckoutPage() {
       <PageHeader
         eyebrow="Pagamento"
         title="Resumo da compra"
-        subtitle="Nesta etapa entra o formulario de pagamento simulado e a revisao final do ingresso."
+        subtitle="Revise os detalhes do pedido e conclua o pagamento com seguranca."
       />
 
       <div className="purchase-layout">

@@ -40,9 +40,9 @@ export function EventsPage() {
   return (
     <section className="page-stack">
       <PageHeader
-        eyebrow="Catalogo"
-        title="Eventos em destaque"
-        subtitle="Base inicial para listagem, filtros e selecao de eventos da plataforma."
+        eyebrow="Eventos"
+        title="Encontre seu proximo evento"
+        subtitle="Shows, festivais, experiencias e conferencias em uma navegacao simples e direta."
       />
 
       <EventFilters
@@ -57,13 +57,27 @@ export function EventsPage() {
       />
 
       {filteredEvents.length > 0 ? (
-        <div className="event-grid">
-          {filteredEvents.map((event) => (
-            <EventCard event={event} key={event.id} />
-          ))}
-        </div>
+        <>
+          <div className="catalog-status">
+            <span>{filteredEvents.length} resultados</span>
+            <span>
+              {selectedCity === "all" ? "Todas as cidades" : selectedCity}
+              {dateFilter === "all" ? "" : ` · ${new Date(`2026-${dateFilter}-01`).toLocaleString("pt-BR", { month: "long" })}`}
+            </span>
+          </div>
+
+          <div className="event-grid">
+            {filteredEvents.map((event) => (
+              <EventCard event={event} key={event.id} />
+            ))}
+          </div>
+        </>
       ) : (
-        <EmptyState actionLabel="Limpar filtros" onAction={resetFilters} title="Nenhum evento encontrado">
+        <EmptyState
+          actionLabel="Limpar filtros"
+          onAction={resetFilters}
+          title="Nenhum evento encontrado"
+        >
           Ajuste a busca ou remova os filtros para ver outros eventos disponiveis.
         </EmptyState>
       )}

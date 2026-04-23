@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { Alert } from "../components/ui/Alert";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
@@ -22,8 +21,8 @@ export function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, isLoading, login } = useAuth();
-  const [email, setEmail] = useState("aluno@eventix.com");
-  const [password, setPassword] = useState("eventix");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [formError, setFormError] = useState("");
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const from = (location.state as LocationState | null)?.from?.pathname ?? "/eventos";
@@ -64,21 +63,13 @@ export function LoginPage() {
     <section className="page-stack page-stack--narrow">
       <PageHeader
         eyebrow="Acesso"
-        title="Entrar na plataforma"
-        subtitle="O login sera simulado para cumprir o fluxo de compra e perfil do usuario."
+        title="Entrar na sua conta"
+        subtitle="Acesse seus ingressos, acompanhe compras e conclua pedidos com mais rapidez."
       />
 
       <Card>
         <form className="form-stack" onSubmit={handleSubmit}>
-          {formError ? (
-            <Alert title="Nao foi possivel entrar" variant="danger">
-              {formError}
-            </Alert>
-          ) : (
-            <Alert title="Credenciais simuladas" variant="info">
-              Use aluno@eventix.com e senha eventix.
-            </Alert>
-          )}
+          {formError ? <p className="field__message field__message--error">{formError}</p> : null}
           <Input
             error={errors.email}
             label="Email"

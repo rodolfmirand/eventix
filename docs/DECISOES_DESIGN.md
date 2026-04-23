@@ -18,10 +18,11 @@ Usuarios que querem comprar ingressos online para shows, palestras, festivais, t
 
 Direcao escolhida:
 
-- Moderna, escura e objetiva.
+- Moderna, clara e objetiva.
 - Aparencia de produto real de ticketing.
 - Interface focada em decisao e compra, sem cara de landing page.
-- Visual com base em azul marinho, alto contraste e destaque claro para eventos, datas, assentos e status.
+- Visual leve, frio e minimalista, com superfices claras, contraste suave e destaque discreto para eventos, datas, assentos e status.
+- Composicao mais autoral e editorial, evitando a sensacao de template generico.
 
 Evitar:
 
@@ -30,35 +31,36 @@ Evitar:
 - Paleta dominada por uma unica cor.
 - Elementos decorativos sem funcao.
 - Cantos muito arredondados em cards, botoes e campos.
+- Barras de busca grandes demais ou paineis de filtro com cara de dashboard padrao.
 
 ## 4. Paleta de cores inicial
 
 | Papel | Token | Cor | Uso |
 | --- | --- | --- | --- |
-| Fundo principal | `--color-bg` | `#07111F` | Fundo geral da aplicacao |
-| Superficie | `--color-surface` | `#0D1B2E` | Cards, paineis e formularios |
-| Superficie elevada | `--color-surface-raised` | `#132842` | Elementos destacados e resumos |
-| Texto principal | `--color-text` | `#F4F7FB` | Titulos e textos importantes |
-| Texto secundario | `--color-muted` | `#A9B6C8` | Descricoes, metadados e ajuda |
-| Primaria | `--color-primary` | `#0B1F3A` | Azul marinho para acoes principais e identidade |
-| Primaria clara | `--color-primary-soft` | `#1E4E8C` | Hover, foco e selecao ativa |
-| Acento | `--color-accent` | `#D6A33A` | Precos, alertas leves e detalhes de destaque |
-| Sucesso | `--color-success` | `#35B979` | Confirmacao de compra e disponibilidade |
-| Erro | `--color-danger` | `#E05A4F` | Erros, campos invalidos e assentos indisponiveis |
-| Borda | `--color-border` | `#25405F` | Divisorias e bordas discretas |
+| Fundo principal | `--color-bg` | `#F5F8FC` | Fundo geral da aplicacao |
+| Superficie | `--color-surface` | `#FFFFFF` | Cards, paineis e formularios |
+| Superficie elevada | `--color-surface-raised` | `#EEF4FA` | Elementos destacados e resumos |
+| Texto principal | `--color-text` | `#233243` | Titulos e textos importantes |
+| Texto secundario | `--color-muted` | `#718092` | Descricoes, metadados e ajuda |
+| Primaria | `--color-primary` | `#6F8EAD` | Azul frio suave para acoes principais e identidade |
+| Primaria clara | `--color-primary-soft` | `#9DB8D1` | Hover, foco e selecao ativa |
+| Acento | `--color-accent` | `#C7D8E7` | Destaques sutis e apoio visual |
+| Sucesso | `--color-success` | `#72B89D` | Confirmacao de compra e disponibilidade |
+| Erro | `--color-danger` | `#CF8B92` | Erros, campos invalidos e assentos indisponiveis |
+| Borda | `--color-border` | `#D8E3ED` | Divisorias e bordas discretas |
 
 Observacoes:
 
-- A cor primaria deve ser azul marinho e representar a identidade da plataforma.
-- Acoes clicaveis importantes podem usar azul marinho com borda/realce em `--color-primary-soft` para manter contraste no tema escuro.
-- A cor de acento deve ser usada com moderacao, principalmente para preco ou chamada visual.
+- A cor primaria deve ser um azul frio e suave, sem pesar a interface.
+- Acoes clicaveis importantes usam azul dessaturado com contraste suficiente, sem perder a leveza do tema.
+- A cor de acento deve ser usada com moderacao, principalmente para apoiar hierarquia visual.
 - Erro e sucesso devem ter texto ou icone alem da cor, para nao depender apenas de percepcao cromatica.
 
 ## 5. Tipografia
 
 Decisao inicial:
 
-- Fonte preferencial: `Inter`, com fallback `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`.
+- Fonte preferencial: `Manrope`, com fallback `Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`.
 - Tamanho base: `16px`.
 - Altura de linha padrao: `1.5`.
 
@@ -66,8 +68,8 @@ Escala sugerida:
 
 | Uso | Tamanho | Peso |
 | --- | --- | --- |
-| Titulo de pagina | `32px` | `700` |
-| Titulo de secao | `24px` | `700` |
+| Titulo de pagina | `32px` | `600` |
+| Titulo de secao | `24px` | `600` |
 | Titulo de card | `18px` | `600` |
 | Texto comum | `16px` | `400` |
 | Texto auxiliar | `14px` | `400` |
@@ -78,6 +80,7 @@ Regras:
 - Nao usar texto muito grande dentro de cards compactos.
 - Nao reduzir textos importantes abaixo de `14px`.
 - Evitar caixa alta em frases longas.
+- Preferir pesos intermediarios e leves antes de pesos pesados.
 
 ## 6. Espacamento e layout
 
@@ -434,22 +437,22 @@ Consequencias:
 
 O design deve priorizar hierarquia, estados de sistema, formularios claros e componentes consistentes.
 
-### DD-002 - Usar paleta escura com azul marinho e estados semanticos
+### DD-002 - Usar paleta clara com tons frios e estados semanticos
 
 Data: 2026-04-23
 Status: aceita
 
 Contexto:
 
-A plataforma precisa ter identidade propria e o usuario solicitou uma aparencia mais escura, com azul marinho como cor principal.
+A plataforma precisa parecer mais limpa, leve e contemporanea, com predominio de cores frias e claras.
 
 Decisao:
 
-Usar azul marinho como cor primaria, base escura para fundos e superficies, acento dourado discreto e cores semanticas separadas para sucesso e erro.
+Usar base clara, superficies brancas, azuis frios suaves como cor primaria e uma paleta dessaturada para bordas, destaques e estados.
 
 Consequencias:
 
-Acoes principais devem reforcar o azul marinho com contraste suficiente. Precos e destaques podem usar dourado com moderacao. Estados de erro e sucesso usam cores proprias e tambem texto ou icone.
+Acoes principais ficam mais leves visualmente e o produto ganha uma leitura mais limpa. Estados de erro e sucesso continuam semanticos, mas integrados a uma interface menos pesada.
 
 ### DD-003 - Usar cards apenas para itens e paineis especificos
 
@@ -535,3 +538,37 @@ A tela de ingresso digital deve centralizar o QR Code e complementar com dados e
 Consequencias:
 
 A tela fica objetiva para demonstracao, facil de capturar no relatorio e alinhada ao requisito minimo do trabalho.
+
+### DD-008 - Adotar tema claro, frio e tipografia mais elegante
+
+Data: 2026-04-23
+Status: aceita
+
+Contexto:
+
+O usuario solicitou uma interface mais limpa, minimalista e moderna, com cores claras, frias e tipografia mais fina.
+
+Decisao:
+
+Adotar tema claro com fundos frios, superficies brancas, contraste suave e a fonte `Manrope` como base visual principal.
+
+Consequencias:
+
+O sistema ganha uma leitura mais leve e sofisticada. O uso de sombras, cores fortes e gradientes passa a ser mais contido, e a hierarquia visual depende mais de espacamento, tipografia e contraste sutil.
+
+### DD-009 - Dar ao catalogo uma composicao mais autoral
+
+Data: 2026-04-23
+Status: aceita
+
+Contexto:
+
+Mesmo com a troca para um tema claro, a interface ainda podia parecer generica demais, especialmente no catalogo e na area de busca.
+
+Decisao:
+
+Adotar uma toolbar de descoberta mais compacta e uma composicao mais editorial para os cards de evento, com destaque principal e hierarquia menos padronizada.
+
+Consequencias:
+
+O produto ganha personalidade visual sem perder clareza funcional. Busca e filtros ficam mais leves e os eventos passam a ter uma apresentacao menos previsivel.

@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { currentUser } from "../../data/users";
 import type { User } from "../../types/domain";
 import { persistUser, readPersistedUser } from "../../utils/storage";
 
@@ -21,6 +20,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(() => readPersistedUser());
   const [isLoading, setIsLoading] = useState(false);
 
+  function buildUser(email: string): User {
+    const normalizedEmail = email.trim().toLowerCase();
+    const [rawName = "cliente"] = normalizedEmail.split("@");
+    const formattedName = rawName
+      .split(/[.\-_]/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+
+    return {
+      email: normalizedEmail,
+      id: `user-${normalizedEmail.replace(/[^a-z0-9]/g, "-")}`,
+      name: formattedName || "Cliente",
+    };
+  }
+
   useEffect(() => {
     persistUser(user);
   }, [user]);
@@ -30,14 +45,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await new Promise((resolve) => window.setTimeout(resolve, 500));
     setIsLoading(false);
 
-    const isValidEmail = email.trim().toLowerCase() === currentUser.email;
-    const isValidPassword = password === "eventix";
+    const normalizedEmail = email.trim();
+    const isValidEmail = /^\S+@\S+\.\S+$/.test(normalizedEmail);
+    const isValidPassword = password.trim().length >= 6;
 
     if (!isValidEmail || !isValidPassword) {
-      throw new Error("Email ou senha invalidos. Use aluno@eventix.com e senha eventix.");
+      throw new Error("Confira o email e a senha informados.");
     }
 
-    setUser(currentUser);
+    setUser(buildUser(normalizedEmail));
   }
 
   function logout() {
