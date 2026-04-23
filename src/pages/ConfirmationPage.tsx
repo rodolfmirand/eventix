@@ -1,11 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
+import { useTickets } from "../features/tickets/TicketsContext";
+import { formatEventDate } from "../utils/date";
 import { getPurchasedTicketById } from "../utils/eventLookups";
 
 export function ConfirmationPage() {
   const { ticketId = "" } = useParams();
-  const ticket = getPurchasedTicketById(ticketId);
+  const { tickets } = useTickets();
+  const ticket = getPurchasedTicketById(ticketId, tickets);
 
   return (
     <section className="page-stack">
@@ -21,6 +24,14 @@ export function ConfirmationPage() {
             O ingresso {ticket?.id ?? ticketId} foi criado e ja pode ser acessado pelo perfil.
           </p>
         </div>
+        {ticket ? (
+          <dl className="summary-list">
+            <div>
+              <dt>Compra registrada em</dt>
+              <dd>{formatEventDate(ticket.purchasedAt)}</dd>
+            </div>
+          </dl>
+        ) : null}
         <div className="action-row">
           <Link className="button button--primary" to={`/ingressos/${ticket?.id ?? ticketId}`}>
             Abrir ingresso digital

@@ -1,14 +1,16 @@
 import { Link, useParams } from "react-router-dom";
-import { Badge } from "../components/ui/Badge";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
 import { currentUser } from "../data/users";
+import { DigitalTicket } from "../features/tickets/DigitalTicket";
+import { useTickets } from "../features/tickets/TicketsContext";
 import { formatEventDate } from "../utils/date";
 import { getPurchasedTicketById, getTicketDetails } from "../utils/eventLookups";
 
 export function TicketPage() {
   const { ticketId = "ingresso" } = useParams();
-  const ticket = getPurchasedTicketById(ticketId);
+  const { tickets } = useTickets();
+  const ticket = getPurchasedTicketById(ticketId, tickets);
   const ticketDetails = ticket ? getTicketDetails(ticket) : undefined;
 
   if (!ticketDetails) {
@@ -26,7 +28,7 @@ export function TicketPage() {
     );
   }
 
-  const { category, event, seat } = ticketDetails;
+  const { category, event, seat, ticket: resolvedTicket } = ticketDetails;
 
   return (
     <section className="page-stack page-stack--narrow">
@@ -36,42 +38,17 @@ export function TicketPage() {
         subtitle="Esta tela exibira o QR Code e os detalhes do ingresso comprado."
       />
 
-      <Card className="digital-ticket">
-        <Badge variant="primary">#{ticketId}</Badge>
-        <div className="qr-placeholder" aria-label="Espaco reservado para QR Code">
-          QR
-        </div>
-        <div>
-          <h2>{event.title}</h2>
-          <p>Apresente este QR Code na entrada do evento.</p>
-        </div>
-        <dl className="ticket-details">
-          <div>
-            <dt>Titular</dt>
-            <dd>{currentUser.name}</dd>
-          </div>
-          <div>
-            <dt>Data</dt>
-            <dd>{formatEventDate(event.startsAt)}</dd>
-          </div>
-          <div>
-            <dt>Local</dt>
-            <dd>
-              {event.venue} - {event.city}, {event.state}
-            </dd>
-          </div>
-          <div>
-            <dt>Categoria</dt>
-            <dd>{category.name}</dd>
-          </div>
-          <div>
-            <dt>Assento</dt>
-            <dd>
-              {seat.row}
-              {seat.number}
-            </dd>
-          </div>
-        </dl>
+      <Card>
+        <DigitalTicket
+          categoryName={category.name}
+          dateLabel={formatEventDate(event.startsAt)}
+          eventTitle={event.title}
+          locationLabel={`${event.venue} - ${event.city}, ${event.state}`}
+          qrPayload={resolvedTicket.qrPayload}
+          seatLabel={`${seat.row}${seat.number}`}
+          ticketId={resolvedTicket.id}
+          ticketOwner={currentUser.name}
+        />
       </Card>
     </section>
   );

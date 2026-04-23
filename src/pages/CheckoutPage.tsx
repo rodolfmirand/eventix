@@ -1,21 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Card } from "../components/ui/Card";
-import { Input } from "../components/ui/Input";
 import { PageHeader } from "../components/ui/PageHeader";
-import { purchasedTickets } from "../data/tickets";
-import { formatCurrency } from "../utils/date";
-import { getTicketDetails } from "../utils/eventLookups";
+import { PurchaseSummary } from "../features/checkout/PurchaseSummary";
+import { CheckoutForm } from "../features/checkout/CheckoutForm";
+import { useTickets } from "../features/tickets/TicketsContext";
+import { formatCurrency, formatEventDate } from "../utils/date";
+import { getCategoryById, getEventById, getSeatById } from "../utils/eventLookups";
 
 export function CheckoutPage() {
-  const checkoutDetails = getTicketDetails(purchasedTickets[0]);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { createTicket } = useTickets();
+  const eventId = searchParams.get("evento") ?? "";
+  const categoryId = searchParams.get("categoria") ?? "";
+  const seatId = searchParams.get("assento") ?? "";
+  const event = getEventById(eventId);
+  const category = event ? getCategoryById(event, categoryId) : undefined;
+  const seat = event ? getSeatById(event, seatId) : undefined;
 
-  if (!checkoutDetails) {
+  if (!event || !category || !seat) {
     return (
       <section className="page-stack">
         <PageHeader
           eyebrow="Pagamento"
           title="Compra indisponivel"
-          subtitle="Nao foi possivel montar o resumo da compra simulada."
+          subtitle="Nao foi possivel montar o checkout com os dados selecionados."
         />
         <Link className="button button--secondary" to="/eventos">
           Ver eventos
@@ -24,7 +33,15 @@ export function CheckoutPage() {
     );
   }
 
-  const { category, event, seat, ticket } = checkoutDetails;
+  function handleSubmit() {
+    const ticket = createTicket({
+      categoryId,
+      eventId,
+      seatId,
+    });
+
+    navigate(`/confirmacao/${ticket.id}`);
+  }
 
   return (
     <section className="page-stack">
@@ -36,52 +53,18 @@ export function CheckoutPage() {
 
       <div className="purchase-layout">
         <Card>
-          <form className="form-stack">
-            <Input label="Nome impresso no cartao" name="cardName" placeholder="Maria Silva" />
-            <Input
-              helperText="Pagamento apenas simulado para o trabalho."
-              label="Numero do cartao"
-              name="cardNumber"
-              placeholder="0000 0000 0000 0000"
-            />
-            <div className="form-grid">
-              <Input label="Validade" name="expiry" placeholder="MM/AA" />
-              <Input label="CVV" name="cvv" placeholder="123" />
-            </div>
-            <Link className="button button--primary" to={`/confirmacao/${ticket.id}`}>
-              Finalizar compra simulada
-            </Link>
-          </form>
+          <CheckoutForm onSubmit={handleSubmit} />
         </Card>
 
-        <Card className="purchase-summary">
-          <div className="section-heading">
-            <h2>Resumo do pedido</h2>
-            <p>Preco total visivel antes da confirmacao.</p>
-          </div>
-          <dl className="summary-list">
-            <div>
-              <dt>Evento</dt>
-              <dd>{event.title}</dd>
-            </div>
-            <div>
-              <dt>Local</dt>
-              <dd>
-                {event.city}, {event.state}
-              </dd>
-            </div>
-            <div>
-              <dt>Categoria e assento</dt>
-              <dd>
-                {category.name} - {seat.row}
-                {seat.number}
-              </dd>
-            </div>
-            <div>
-              <dt>Total</dt>
-              <dd className="summary-total">{formatCurrency(category.price)}</dd>
-            </div>
-          </dl>
+        <Card>
+          <PurchaseSummary
+            categoryName={category.name}
+            dateLabel={formatEventDate(event.startsAt)}
+            eventTitle={event.title}
+            locationLabel={`${event.venue} - ${event.city}, ${event.state}`}
+            seatLabel={`${seat.row}${seat.number}`}
+            totalLabel={formatCurrency(category.price)}
+          />
         </Card>
       </div>
     </section>

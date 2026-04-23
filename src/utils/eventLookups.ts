@@ -1,5 +1,5 @@
 import { events } from "../data/events";
-import { purchasedTickets } from "../data/tickets";
+import { purchasedTickets as defaultPurchasedTickets } from "../data/tickets";
 import type { Event, PurchasedTicket } from "../types/domain";
 import { isEventPast, sortEventsChronologically } from "./date";
 
@@ -53,12 +53,12 @@ export function getTicketDetails(ticket: PurchasedTicket) {
   };
 }
 
-export function getPurchasedTicketById(ticketId: string) {
-  return purchasedTickets.find((ticket) => ticket.id === ticketId);
+export function getPurchasedTicketById(ticketId: string, tickets: PurchasedTicket[] = defaultPurchasedTickets) {
+  return tickets.find((ticket) => ticket.id === ticketId);
 }
 
-export function getPurchasedTicketDetails() {
-  return purchasedTickets
+export function getPurchasedTicketDetails(tickets: PurchasedTicket[] = defaultPurchasedTickets) {
+  return tickets
     .map(getTicketDetails)
     .filter((ticketDetails): ticketDetails is NonNullable<typeof ticketDetails> =>
       Boolean(ticketDetails),
@@ -69,8 +69,8 @@ export function getPurchasedTicketDetails() {
     );
 }
 
-export function splitPurchasedTicketsByEventDate() {
-  const ticketDetails = getPurchasedTicketDetails();
+export function splitPurchasedTicketsByEventDate(tickets: PurchasedTicket[] = defaultPurchasedTickets) {
+  const ticketDetails = getPurchasedTicketDetails(tickets);
 
   return {
     past: ticketDetails.filter(({ event }) => isEventPast(event)),

@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
-import { Badge } from "../components/ui/Badge";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
 import { currentUser } from "../data/users";
+import { ProfileSummary } from "../features/profile/ProfileSummary";
+import { TicketCard } from "../features/tickets/TicketCard";
+import { useTickets } from "../features/tickets/TicketsContext";
 import { formatEventDate } from "../utils/date";
 import { splitPurchasedTicketsByEventDate } from "../utils/eventLookups";
 
 export function ProfilePage() {
-  const { past, upcoming } = splitPurchasedTicketsByEventDate();
+  const { tickets } = useTickets();
+  const { past, upcoming } = splitPurchasedTicketsByEventDate(tickets);
 
   return (
     <section className="page-stack">
@@ -17,6 +20,14 @@ export function ProfilePage() {
         subtitle={`Ingressos de ${currentUser.name}, separados entre proximos eventos e eventos passados.`}
       />
 
+      <ProfileSummary
+        email={currentUser.email}
+        pastCount={past.length}
+        totalTickets={tickets.length}
+        upcomingCount={upcoming.length}
+        userName={currentUser.name}
+      />
+
       <div className="profile-sections">
         <Card className="ticket-list-section">
           <div className="section-heading">
@@ -24,23 +35,16 @@ export function ProfilePage() {
             <p>Ingressos em ordem cronologica para facilitar o acesso no dia do evento.</p>
           </div>
           {upcoming.map(({ category, event, seat, ticket }) => (
-            <article className="ticket-row" key={ticket.id}>
-              <div>
-                <Badge variant="success">Proximo evento</Badge>
-                <h3>{event.title}</h3>
-                <p>{formatEventDate(event.startsAt)}</p>
-              </div>
-              <div className="ticket-row__meta">
-                <span>{category.name}</span>
-                <strong>
-                  {seat.row}
-                  {seat.number}
-                </strong>
-              </div>
-              <Link className="button button--secondary" to={`/ingressos/${ticket.id}`}>
-                Ver ingresso
-              </Link>
-            </article>
+            <TicketCard
+              categoryName={category.name}
+              dateLabel={formatEventDate(event.startsAt)}
+              eventTitle={event.title}
+              key={ticket.id}
+              seatLabel={`${seat.row}${seat.number}`}
+              statusLabel="Proximo evento"
+              statusVariant="success"
+              ticketId={ticket.id}
+            />
           ))}
         </Card>
 
@@ -51,23 +55,18 @@ export function ProfilePage() {
           </div>
           {past.length > 0 ? (
             past.map(({ category, event, seat, ticket }) => (
-              <article className="ticket-row ticket-row--muted" key={ticket.id}>
-                <div>
-                  <Badge variant="neutral">Evento passado</Badge>
-                  <h3>{event.title}</h3>
-                  <p>{formatEventDate(event.startsAt)}</p>
-                </div>
-                <div className="ticket-row__meta">
-                  <span>{category.name}</span>
-                  <strong>
-                    {seat.row}
-                    {seat.number}
-                  </strong>
-                </div>
-                <Link className="button button--ghost" to={`/ingressos/${ticket.id}`}>
-                  Ver ingresso
-                </Link>
-              </article>
+              <TicketCard
+                buttonVariant="ghost"
+                categoryName={category.name}
+                dateLabel={formatEventDate(event.startsAt)}
+                eventTitle={event.title}
+                key={ticket.id}
+                seatLabel={`${seat.row}${seat.number}`}
+                statusLabel="Evento passado"
+                statusVariant="neutral"
+                ticketId={ticket.id}
+                tonedDown={true}
+              />
             ))
           ) : (
             <p className="muted-copy">Nenhum evento passado no momento.</p>

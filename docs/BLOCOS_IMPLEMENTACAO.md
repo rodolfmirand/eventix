@@ -225,13 +225,13 @@ Objetivo: concluir a compra sem integrar servicos externos.
 
 Tarefas:
 
-- [ ] Criar tela de checkout com resumo fixo da compra.
-- [ ] Criar formulario de pagamento simulado.
-- [ ] Validar nome impresso, numero fake do cartao, validade e CVV.
-- [ ] Exibir erros proximo aos campos.
-- [ ] Exibir confirmacao antes de finalizar ou resumo claro antes do botao final.
-- [ ] Criar ingresso comprado no estado da aplicacao.
-- [ ] Redirecionar para confirmacao.
+- [x] Criar tela de checkout com resumo fixo da compra.
+- [x] Criar formulario de pagamento simulado.
+- [x] Validar nome impresso, numero fake do cartao, validade e CVV.
+- [x] Exibir erros proximo aos campos.
+- [x] Exibir confirmacao antes de finalizar ou resumo claro antes do botao final.
+- [x] Criar ingresso comprado no estado da aplicacao.
+- [x] Redirecionar para confirmacao.
 
 Arquivos esperados:
 
@@ -260,14 +260,14 @@ Objetivo: cumprir os requisitos de historico, ordenacao e QR Code.
 
 Tarefas:
 
-- [ ] Criar perfil com dados do usuario.
-- [ ] Listar ingressos comprados.
-- [ ] Ordenar ingressos pela data do evento.
-- [ ] Separar proximos eventos e eventos passados.
-- [ ] Criar card de ingresso.
-- [ ] Criar tela de ingresso digital.
-- [ ] Renderizar QR Code com payload do ingresso.
-- [ ] Incluir informacoes do evento, categoria, assento e titular.
+- [x] Criar perfil com dados do usuario.
+- [x] Listar ingressos comprados.
+- [x] Ordenar ingressos pela data do evento.
+- [x] Separar proximos eventos e eventos passados.
+- [x] Criar card de ingresso.
+- [x] Criar tela de ingresso digital.
+- [x] Renderizar QR Code com payload do ingresso.
+- [x] Incluir informacoes do evento, categoria, assento e titular.
 
 Arquivos esperados:
 
