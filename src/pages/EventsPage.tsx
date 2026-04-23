@@ -4,9 +4,12 @@ import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { PageHeader } from "../components/ui/PageHeader";
-import { previewEvents } from "../data/previewCatalog";
+import { formatCurrency, formatEventDate, formatShortEventDate } from "../utils/date";
+import { getMinimumTicketPrice, getUpcomingEvents } from "../utils/eventLookups";
 
 export function EventsPage() {
+  const upcomingEvents = getUpcomingEvents();
+
   return (
     <section className="page-stack">
       <PageHeader
@@ -33,19 +36,23 @@ export function EventsPage() {
       </Card>
 
       <div className="event-grid">
-        {previewEvents.map((event) => (
+        {upcomingEvents.map((event) => (
           <Card className="event-card" key={event.id}>
             <div className="event-card__media" aria-hidden="true">
-              <span>{event.category}</span>
+              <span>{event.imageLabel}</span>
             </div>
             <div className="event-card__body">
               <div className="event-card__meta">
-                <div className="event-card__date">{event.date}</div>
-                <Badge variant="neutral">{event.location}</Badge>
+                <div className="event-card__date">{formatShortEventDate(event.startsAt)}</div>
+                <Badge variant="neutral">
+                  {event.city}, {event.state}
+                </Badge>
               </div>
               <h2>{event.title}</h2>
-              <p>{event.fullDate}</p>
-              <strong className="price-label">{event.priceFrom}</strong>
+              <p>{formatEventDate(event.startsAt)}</p>
+              <strong className="price-label">
+                A partir de {formatCurrency(getMinimumTicketPrice(event))}
+              </strong>
             </div>
             <Link className="button button--secondary" to={`/eventos/${event.id}`}>
               Ver detalhes

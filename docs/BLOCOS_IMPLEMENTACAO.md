@@ -88,17 +88,17 @@ Objetivo: criar a fonte de dados local para toda a aplicacao.
 
 Tarefas:
 
-- [ ] Criar tipos TypeScript para usuario, evento, categoria, assento e ingresso comprado.
-- [ ] Criar usuario simulado.
-- [ ] Criar entre 5 e 8 eventos simulados.
-- [ ] Garantir mistura de eventos futuros e passados.
-- [ ] Criar categorias por evento, como Pista, Premium e VIP.
-- [ ] Criar assentos com status livre e ocupado.
-- [ ] Criar helpers para:
-  - [ ] ordenar eventos por data;
-  - [ ] separar eventos futuros e passados;
-  - [ ] buscar evento por ID;
-  - [ ] buscar categoria e assento por ID.
+- [x] Criar tipos TypeScript para usuario, evento, categoria, assento e ingresso comprado.
+- [x] Criar usuario simulado.
+- [x] Criar entre 5 e 8 eventos simulados.
+- [x] Garantir mistura de eventos futuros e passados.
+- [x] Criar categorias por evento, como Pista, Premium e VIP.
+- [x] Criar assentos com status livre e ocupado.
+- [x] Criar helpers para:
+  - [x] ordenar eventos por data;
+  - [x] separar eventos futuros e passados;
+  - [x] buscar evento por ID;
+  - [x] buscar categoria e assento por ID.
 
 Arquivos esperados:
 
@@ -121,14 +121,14 @@ Objetivo: cumprir o requisito de login e preparar rotas protegidas.
 
 Tarefas:
 
-- [ ] Criar contexto ou store simples de autenticacao.
-- [ ] Implementar login com email e senha simulados.
-- [ ] Validar campos obrigatorios.
-- [ ] Exibir mensagens de erro em linguagem clara.
-- [ ] Exibir estado de carregamento simulado.
-- [ ] Redirecionar para `/eventos` apos login.
-- [ ] Implementar logout.
-- [ ] Proteger rotas internas.
+- [x] Criar contexto ou store simples de autenticacao.
+- [x] Implementar login com email e senha simulados.
+- [x] Validar campos obrigatorios.
+- [x] Exibir mensagens de erro em linguagem clara.
+- [x] Exibir estado de carregamento simulado.
+- [x] Redirecionar para `/eventos` apos login.
+- [x] Implementar logout.
+- [x] Proteger rotas internas.
 
 Arquivos esperados:
 

@@ -2,11 +2,33 @@ import { Link, useParams } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
-import { previewEvents, previewTicketCategories } from "../data/previewCatalog";
+import { formatCurrency, formatEventDate } from "../utils/date";
+import { getEventById } from "../utils/eventLookups";
+
+const categoryStatusLabels = {
+  available: "Disponivel",
+  limited: "Poucos lugares",
+  "sold-out": "Esgotado",
+};
 
 export function EventDetailsPage() {
   const { id = "evento" } = useParams();
-  const event = previewEvents.find((item) => item.id === id) ?? previewEvents[0];
+  const event = getEventById(id);
+
+  if (!event) {
+    return (
+      <section className="page-stack">
+        <PageHeader
+          eyebrow="Evento"
+          title="Evento nao encontrado"
+          subtitle="Volte para o catalogo e escolha um evento disponivel."
+        />
+        <Link className="button button--secondary" to="/eventos">
+          Ver eventos
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <section className="page-stack">
@@ -19,16 +41,15 @@ export function EventDetailsPage() {
       <div className="detail-layout">
         <Card className="detail-panel">
           <div className="event-hero">
-            <span>{event.category}</span>
+            <span>{event.imageLabel}</span>
           </div>
           <div className="detail-panel__meta">
-            <Badge variant="primary">{event.fullDate}</Badge>
-            <Badge variant="accent">{event.location}</Badge>
+            <Badge variant="primary">{formatEventDate(event.startsAt)}</Badge>
+            <Badge variant="accent">
+              {event.venue} - {event.city}, {event.state}
+            </Badge>
           </div>
-          <p>
-            Evento demonstrativo usado para validar o fluxo de ticketing: apresentacao do evento,
-            escolha de categoria, selecao de assento e pagamento simulado.
-          </p>
+          <p>{event.description}</p>
         </Card>
 
         <Card className="ticket-options">
@@ -37,18 +58,31 @@ export function EventDetailsPage() {
             <p>Escolha uma categoria para manter o contexto nas proximas etapas.</p>
           </div>
 
-          {previewTicketCategories.map((category, index) => (
+          {event.categories.map((category, index) => (
             <label className="ticket-option" key={category.id}>
-              <input defaultChecked={index === 1} name="ticket-category" type="radio" />
+              <input
+                defaultChecked={index === 1}
+                disabled={category.status === "sold-out"}
+                name="ticket-category"
+                type="radio"
+              />
               <span>
                 <strong>{category.name}</strong>
                 <small>{category.description}</small>
               </span>
               <span className="ticket-option__side">
-                <Badge variant={category.status === "Poucos lugares" ? "accent" : "success"}>
-                  {category.status}
+                <Badge
+                  variant={
+                    category.status === "limited"
+                      ? "accent"
+                      : category.status === "sold-out"
+                        ? "danger"
+                        : "success"
+                  }
+                >
+                  {categoryStatusLabels[category.status]}
                 </Badge>
-                <strong>{category.price}</strong>
+                <strong>{formatCurrency(category.price)}</strong>
               </span>
             </label>
           ))}

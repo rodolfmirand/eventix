@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
-import { previewPurchase } from "../data/previewCatalog";
+import { getPurchasedTicketById } from "../utils/eventLookups";
 
 export function ConfirmationPage() {
+  const { ticketId = "" } = useParams();
+  const ticket = getPurchasedTicketById(ticketId);
+
   return (
     <section className="page-stack">
       <PageHeader
@@ -15,11 +18,11 @@ export function ConfirmationPage() {
         <div>
           <strong className="success-title">Pagamento simulado aprovado</strong>
           <p>
-            O ingresso {previewPurchase.ticketId} foi criado e ja pode ser acessado pelo perfil.
+            O ingresso {ticket?.id ?? ticketId} foi criado e ja pode ser acessado pelo perfil.
           </p>
         </div>
         <div className="action-row">
-          <Link className="button button--primary" to={`/ingressos/${previewPurchase.ticketId}`}>
+          <Link className="button button--primary" to={`/ingressos/${ticket?.id ?? ticketId}`}>
             Abrir ingresso digital
           </Link>
           <Link className="button button--secondary" to="/perfil">

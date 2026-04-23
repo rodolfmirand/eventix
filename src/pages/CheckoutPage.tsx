@@ -2,9 +2,30 @@ import { Link } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { PageHeader } from "../components/ui/PageHeader";
-import { previewPurchase } from "../data/previewCatalog";
+import { purchasedTickets } from "../data/tickets";
+import { formatCurrency } from "../utils/date";
+import { getTicketDetails } from "../utils/eventLookups";
 
 export function CheckoutPage() {
+  const checkoutDetails = getTicketDetails(purchasedTickets[0]);
+
+  if (!checkoutDetails) {
+    return (
+      <section className="page-stack">
+        <PageHeader
+          eyebrow="Pagamento"
+          title="Compra indisponivel"
+          subtitle="Nao foi possivel montar o resumo da compra simulada."
+        />
+        <Link className="button button--secondary" to="/eventos">
+          Ver eventos
+        </Link>
+      </section>
+    );
+  }
+
+  const { category, event, seat, ticket } = checkoutDetails;
+
   return (
     <section className="page-stack">
       <PageHeader
@@ -27,7 +48,7 @@ export function CheckoutPage() {
               <Input label="Validade" name="expiry" placeholder="MM/AA" />
               <Input label="CVV" name="cvv" placeholder="123" />
             </div>
-            <Link className="button button--primary" to="/confirmacao/EVX-2026-001">
+            <Link className="button button--primary" to={`/confirmacao/${ticket.id}`}>
               Finalizar compra simulada
             </Link>
           </form>
@@ -41,21 +62,24 @@ export function CheckoutPage() {
           <dl className="summary-list">
             <div>
               <dt>Evento</dt>
-              <dd>{previewPurchase.event}</dd>
+              <dd>{event.title}</dd>
             </div>
             <div>
               <dt>Local</dt>
-              <dd>{previewPurchase.location}</dd>
+              <dd>
+                {event.city}, {event.state}
+              </dd>
             </div>
             <div>
               <dt>Categoria e assento</dt>
               <dd>
-                {previewPurchase.category} - {previewPurchase.seat}
+                {category.name} - {seat.row}
+                {seat.number}
               </dd>
             </div>
             <div>
               <dt>Total</dt>
-              <dd className="summary-total">{previewPurchase.total}</dd>
+              <dd className="summary-total">{formatCurrency(category.price)}</dd>
             </div>
           </dl>
         </Card>

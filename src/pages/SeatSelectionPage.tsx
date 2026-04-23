@@ -2,10 +2,31 @@ import { Link, useParams } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Card } from "../components/ui/Card";
 import { PageHeader } from "../components/ui/PageHeader";
-import { previewPurchase } from "../data/previewCatalog";
+import { formatCurrency, formatEventDate } from "../utils/date";
+import { getEventById } from "../utils/eventLookups";
 
 export function SeatSelectionPage() {
   const { id = "evento" } = useParams();
+  const event = getEventById(id);
+  const selectedCategory = event?.categories.find((category) => category.id === "premium");
+  const selectedSeat = event?.seats.find(
+    (seat) => seat.categoryId === selectedCategory?.id && seat.status === "available",
+  );
+
+  if (!event || !selectedCategory || !selectedSeat) {
+    return (
+      <section className="page-stack">
+        <PageHeader
+          eyebrow="Assentos"
+          title="Assentos indisponiveis"
+          subtitle="Volte para o catalogo e escolha outro evento ou categoria."
+        />
+        <Link className="button button--secondary" to="/eventos">
+          Ver eventos
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <section className="page-stack">
@@ -19,18 +40,19 @@ export function SeatSelectionPage() {
         <Card className="seat-placeholder">
           <div className="seat-stage">Palco</div>
           <div className="seat-placeholder__grid" aria-label="Previa visual do mapa de assentos">
-            {Array.from({ length: 40 }, (_, index) => {
-              const isSelected = index === 9;
-              const isOccupied = [0, 7, 14, 22, 31].includes(index);
+            {event.seats.map((seat) => {
+              const isSelected = seat.id === selectedSeat.id;
+              const isOccupied = seat.status === "occupied";
+              const seatLabel = `${seat.row}${seat.number}`;
 
               return (
                 <button
                   aria-label={
                     isSelected
-                      ? "Assento B12 selecionado"
+                      ? `Assento ${seatLabel} selecionado`
                       : isOccupied
-                        ? "Assento ocupado"
-                        : "Assento livre"
+                        ? `Assento ${seatLabel} ocupado`
+                        : `Assento ${seatLabel} livre`
                   }
                   className={[
                     "seat-preview",
@@ -40,10 +62,10 @@ export function SeatSelectionPage() {
                     .filter(Boolean)
                     .join(" ")}
                   disabled={isOccupied}
-                  key={index}
+                  key={seat.id}
                   type="button"
                 >
-                  {isSelected ? "B12" : ""}
+                  {isSelected ? seatLabel : ""}
                 </button>
               );
             })}
@@ -70,25 +92,28 @@ export function SeatSelectionPage() {
           <dl className="summary-list">
             <div>
               <dt>Evento</dt>
-              <dd>{previewPurchase.event}</dd>
+              <dd>{event.title}</dd>
             </div>
             <div>
               <dt>Data</dt>
-              <dd>{previewPurchase.date}</dd>
+              <dd>{formatEventDate(event.startsAt)}</dd>
             </div>
             <div>
               <dt>Categoria</dt>
               <dd>
-                <Badge variant="primary">{previewPurchase.category}</Badge>
+                <Badge variant="primary">{selectedCategory.name}</Badge>
               </dd>
             </div>
             <div>
               <dt>Assento</dt>
-              <dd>{previewPurchase.seat}</dd>
+              <dd>
+                {selectedSeat.row}
+                {selectedSeat.number}
+              </dd>
             </div>
             <div>
               <dt>Total</dt>
-              <dd className="summary-total">{previewPurchase.total}</dd>
+              <dd className="summary-total">{formatCurrency(selectedCategory.price)}</dd>
             </div>
           </dl>
           <Link className="button button--primary" to="/checkout">

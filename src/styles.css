@@ -126,6 +126,26 @@ input {
   color: var(--color-text);
 }
 
+.main-nav__button {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
+.main-nav__button:hover {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+.main-nav__user {
+  align-self: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
 .page-stack {
   display: grid;
   gap: 24px;
@@ -634,6 +654,10 @@ input {
   display: grid;
   gap: 4px;
   text-align: right;
+}
+
+.ticket-row--muted {
+  opacity: 0.72;
 }
 
 .empty-state {
