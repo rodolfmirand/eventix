@@ -191,13 +191,13 @@ Objetivo: implementar a interacao central do sistema.
 
 Tarefas:
 
-- [ ] Criar mapa de assentos em grid.
-- [ ] Exibir legenda para livre, ocupado e selecionado.
-- [ ] Bloquear clique em assentos ocupados.
-- [ ] Permitir selecionar e trocar assento.
-- [ ] Mostrar resumo do evento, categoria, assento e total.
-- [ ] Desabilitar avanco sem assento selecionado.
-- [ ] Permitir voltar ao detalhe para trocar categoria.
+- [x] Criar mapa de assentos em grid.
+- [x] Exibir legenda para livre, ocupado e selecionado.
+- [x] Bloquear clique em assentos ocupados.
+- [x] Permitir selecionar e trocar assento.
+- [x] Mostrar resumo do evento, categoria, assento e total.
+- [x] Desabilitar avanco sem assento selecionado.
+- [x] Permitir voltar ao detalhe para trocar categoria.
 
 Arquivos esperados:
 

@@ -15,6 +15,10 @@ export function getSeatById(event: Event, seatId: string) {
   return event.seats.find((seat) => seat.id === seatId);
 }
 
+export function getSeatsByCategory(event: Event, categoryId: string) {
+  return event.seats.filter((seat) => seat.categoryId === categoryId);
+}
+
 export function getMinimumTicketPrice(event: Event) {
   return Math.min(...event.categories.map((category) => category.price));
 }

@@ -571,9 +571,28 @@ input {
   text-transform: uppercase;
 }
 
+.seat-map {
+  display: grid;
+  gap: 12px;
+}
+
+.seat-map__row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.seat-map__row-label {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.seat-map__row-grid,
 .seat-placeholder__grid {
   display: grid;
-  max-width: 520px;
   grid-template-columns: repeat(8, 1fr);
   gap: 8px;
 }
@@ -587,6 +606,7 @@ input {
   cursor: pointer;
   font-size: 0.78rem;
   font-weight: 800;
+  padding: 0;
 }
 
 .seat-preview--occupied {
@@ -619,10 +639,13 @@ input {
 }
 
 .purchase-summary {
-  position: sticky;
-  top: 96px;
   display: grid;
   gap: 18px;
+}
+
+.purchase-summary__actions {
+  display: grid;
+  gap: 10px;
 }
 
 .summary-list,
