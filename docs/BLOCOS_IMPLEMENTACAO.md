@@ -342,12 +342,12 @@ Objetivo: organizar a entrega final.
 
 Tarefas:
 
-- [ ] Criar lista de screenshots necessarias para cada heuristica.
+- [x] Criar lista de screenshots necessarias para cada heuristica.
 - [ ] Capturar telas finais.
-- [ ] Criar roteiro curto do video.
+- [x] Criar roteiro curto do video.
 - [ ] Gravar fluxo: login, catalogo, detalhe, categoria, assento, checkout, confirmacao, perfil e QR Code.
-- [ ] Conferir que o README explica como executar o projeto.
-- [ ] Separar informacoes para o relatorio final.
+- [x] Conferir que o README explica como executar o projeto.
+- [x] Separar informacoes para o relatorio final.
 
 Arquivos esperados:
 
